@@ -1,0 +1,205 @@
+openapi: '3.0.3'
+info:
+  title: User API
+  version: '1.0'
+servers:
+  - url: http://localhost:8000/
+paths:
+  /api/users:
+    post:
+      description: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                name:
+                  type: string
+            example:
+              username: khannedy
+              password: rahasia
+              name: Khannedy Eko Saputra
+      responses:
+        400:
+          description: Validation errors
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: object
+                    properties:
+                      username:
+                        type: array
+                        items:
+                          type: string
+                      name:
+                        type: array
+                        items:
+                          type: string
+              example:
+                errors:
+                  username:
+                    - "username must not be blank"
+                    - "username must be at least 6 characters"
+                  name:
+                    - "name must not be blank"
+                    - "name must be at least 6 characters"
+        201:
+          description: Berhasil Register User
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      username:
+                        type: string
+                      name:
+                        type: string
+              example:
+                data:
+                  id: 1
+                  username: khannedy
+                  name: Khannedy Eko Saputra
+
+  /api/users/login:
+    post:
+      description: Login user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: Berhasil Login User
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      username:
+                        type: string
+                      name:
+                        type: string
+                      token:
+                        type: string
+
+  /api/users/current:
+    get:
+      description: Get the current user
+      parameters:
+        - name: Authorized
+          in: header
+          required: true
+          description: Authorization token
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successfully retrieved the current user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      username:
+                        type: string
+                      name:
+                        type: string
+    patch:
+      description: Update the current user
+      parameters:
+        - name: Authorized
+          in: header
+          required: true
+          description: Authorization token
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                password:
+                  type: string
+            example:
+              name: Updated Name
+              password: newpassword
+      responses:
+        200:
+          description: Successfully updated the current user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      username:
+                        type: string
+                      name:
+                        type: string
+
+  /api/users/logout:
+    delete:
+      description: Logout the current user
+      parameters:
+        - name: Authorized
+          in: header
+          required: true
+          description: Authorization token
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successfully logged out the current user
+          content:
+            application/json:
+              schema:
+                type: boolean
+              example: true
+        400:
+          description: Logout failed due to invalid token or other errors
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string

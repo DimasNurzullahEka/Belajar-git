@@ -1,0 +1,236 @@
+openapi: '3.0.3'
+info:
+  title: API Title
+  version: '1.0'
+servers:
+  - url: http://localhost:8000/
+paths:
+  /api/contacts/{idContacts}/address:
+    post:
+      description: Create a new address
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+          description: Bearer token for authentication
+        - name: idContacts
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the contact
+      requestBody:
+        description: Create a new address
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                street:
+                  type: string
+                city:
+                  type: string
+                province:
+                  type: string
+                country:
+                  type: string
+                postal_code:
+                  type: string
+      responses:
+        '201':
+          description: Address successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      street:
+                        type: string
+                      city:
+                        type: string
+                      province:
+                        type: string
+                      country:
+                        type: string
+                      postal_code:
+                        type: string
+                  errors:
+                    type: object
+    get:
+      description: Get a list of addresses
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+          description: Bearer token for authentication
+        - name: idContacts
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the contact
+      responses:
+        '200':
+          description: Successfully retrieved list of addresses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        street:
+                          type: string
+                        city:
+                          type: string
+                        province:
+                          type: string
+                        country:
+                          type: string
+                        postal_code:
+                          type: string
+                  errors:
+                    type: object
+  /api/contacts/{idContacts}/address/{idAddress}:
+    get:
+      description: Get an address
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+          description: Bearer token for authentication
+        - name: idContacts
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the contact
+        - name: idAddress
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the address
+      responses:
+        '200':
+          description: Successfully retrieved address
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  street:
+                    type: string
+                  city:
+                    type: string
+                  state:
+                    type: string
+                  postal_code:
+                    type: string
+                  country:
+                    type: string
+    put:
+      description: Update an address
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+          description: Bearer token for authentication
+        - name: idContacts
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the contact
+        - name: idAddress
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the address
+      requestBody:
+        description: Updated address data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                street:
+                  type: string
+                city:
+                  type: string
+                state:
+                  type: string
+                postal_code:
+                  type: string
+                country:
+                  type: string
+      responses:
+        '200':
+          description: Address successfully updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  street:
+                    type: string
+                  city:
+                    type: string
+                  state:
+                    type: string
+                  postal_code:
+                    type: string
+                  country:
+                    type: string
+    delete:
+      description: Delete an address
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+          description: Bearer token for authentication
+        - name: idContacts
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the contact
+        - name: idAddress
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the address
+      responses:
+        '200':
+          description: Address successfully deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
